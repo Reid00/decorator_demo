@@ -38,7 +38,10 @@ class Logger:
 
 
 def set_logger():
-    log_format="%(asctime)s-%(name)s-%(levelname)s-%(message)s"
+    root_logger = logging.getLogger()    # 获取现有的logger
+    for h in root_logger.handlers:      #清除现有的handler
+        root_logger.removeHandler(h)
+    log_format="[%(asctime)s]-%(name)s-%(levelname)s-%(message)s"
     log_file = Path(__file__).with_suffix('.log')
     # log_file = __file__
     file_hanlder = logging.FileHandler(filename=log_file, mode='a', encoding='utf-8')
@@ -47,7 +50,10 @@ def set_logger():
 
 def test():
     set_logger()
-    logging.info('日志')
+    try:
+        result = 10 / 0
+    except Exception:
+        logging.error('Faild to get result', exc_info=True)
 
 
 if __name__ == '__main__':

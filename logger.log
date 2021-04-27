@@ -1,1 +1,6 @@
-2021-04-27 15:51:16,287-root-INFO-日志
+[2021-04-27 18:54:21,127]-root-INFO-日志
+[2021-04-27 18:56:16,152]-root-ERROR-Faild to get result
+Traceback (most recent call last):
+  File "c:\Repository\decorator_demo\logger.py", line 51, in test
+    result = 10 / 0
+ZeroDivisionError: division by zero

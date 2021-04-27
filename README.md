@@ -80,8 +80,13 @@
    ```
 
  ## Python 日志设置logger
+ Good tutorial
+ > https://www.cnblogs.com/nancyzhu/p/8551506.html
 ```python
 def set_logger():
+    root_logger = logging.getLogger()    # 获取现有的logger
+    for h in root_logger.handlers:      #清除现有的handler
+        root_logger.removeHandler(h)
     log_format="%(asctime)s-%(name)s-%(levelname)s-%(message)s"
     log_file = Path(__file__).with_suffix('.log')
     # log_file = __file__
