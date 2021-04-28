@@ -9,6 +9,7 @@
 
 # here put the import lib
 import logging
+import logging.handlers
 from pathlib import Path
 
 class Logger:
@@ -44,7 +45,8 @@ def set_logger():
     log_format="[%(asctime)s]-%(name)s-%(levelname)s-%(message)s"
     log_file = Path(__file__).with_suffix('.log')
     # log_file = __file__
-    file_hanlder = logging.FileHandler(filename=log_file, mode='a', encoding='utf-8')
+    file_hanlder = logging.handlers.TimedRotatingFileHandler(filename=log_file, when='D', encoding='utf-8') # 需要导入logging.handlers 这是logging 的子模块
+    # file_hanlder = logging.FileHandler(filename=log_file, mode='a', encoding='utf-8')
     logging.basicConfig(handlers={file_hanlder}, format=log_format, level=logging.INFO)
 
 

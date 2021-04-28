@@ -80,8 +80,10 @@
    ```
 
  ## Python 日志设置logger
- Good tutorial
- > https://www.cnblogs.com/nancyzhu/p/8551506.html
+ 
+ > Good tutorial
+    https://www.cnblogs.com/nancyzhu/p/8551506.html
+
 ```python
 def set_logger():
     root_logger = logging.getLogger()    # 获取现有的logger
