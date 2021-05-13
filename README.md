@@ -1,7 +1,7 @@
 # 装饰器
 记录一些日常经常用到的装饰器例子，方便开箱即用
 
-## 时间计时器demo
+## 装饰器demo
    1. 函数装饰器`无参数`
    ```python
    
@@ -78,6 +78,79 @@
                 func(*args, **kwargs)
             return wrapper
    ```
+
+
+## 常用装饰器
+### 任务超时退出
+- 函数实现
+```python
+import functools
+from concurrent import futures
+
+executor = futures.ThreadPoolExecutor(1)
+
+def timeout(seconds):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kw):
+            future = executor.submit(func, *args, **kw)
+            return future.result(timeout=seconds)
+        return wrapper
+    return decorator
+```
+- 类实现
+```python
+import functools
+from concurrent import futures
+
+class timeout:
+    __executor = futures.ThreadPoolExecutor(1)
+
+    def __init__(self, seconds):
+        self.seconds = seconds
+
+    def __call__(self, func):
+        @functools.wraps(func)
+        def wrapper(*args, **kw):
+            future = timeout.__executor.submit(func, *args, **kw)
+            return future.result(timeout=self.seconds)
+        return wrapper
+```
+
+### 缓存
+```python
+from functools import lru_cache
+
+@lru_cache()
+def task(x):
+    time.sleep(0.01)
+    return round(math.log(x**3 / 15), 4)
+
+```
+
+### 约束某个函数的可执行次数
+```python
+import functools
+
+class allow_count:
+    def __init__(self, count):
+        self.count = count
+        self.i = 0
+
+    def __call__(self, func):
+        @functools.wraps(func)
+        def wrapper(*args, **kw):
+            if self.i >= self.count:
+                return
+            self.i += 1
+            return func(*args, **kw)
+        return wrapper
+
+@allow_count(3)
+def job(x):
+    x += 1
+    return x
+```
 
  ## Python 日志设置logger
  
